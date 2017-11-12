@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Excel</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+        <style>
+            .table {
+                border-collapse: collapse;
+            }
+
+            .table td {
+                border: 1px solid #212121;
+            }
+            
+            .table input {
+                width: 100px;
+                color: #212121;
+                border: none;
+            }
+
+            .table .header {
+                font-weight: bold;
+                text-align: center;
+                background: #B2EBF2;
+                color: #212121;
+            }
+            
+            .errors {
+                padding-left: 20px;
+            }
+
+            .errors h2 {
+                color: #FF5252;
+            }
+
+            .reset {
+                margin: 20px 0 0 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="application">
+            <table class="table">
+                <tr>
+                    <td></td>
+                    <td v-for="col in cols" class="header">
+                        {{ col }}
+                    </td>
+                </tr>
+                <tr v-for="row in rows">
+                    <td class="header">
+                        {{ row }}
+                    </td>
+                    <td v-for="col in cols">
+                        <input type="text" v-on:blur="blur(col + row)"
+                            v-on:focus="focus(col + row)" v-model="view[col + row]"
+                            v-on:keydown.enter="$event.target.blur()"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="errors" v-if="errors.length > 0">
+                <h2>Errors:</h2>
+                <ul>
+                    <li v-for="error in errors">
+                        {{ error }}
+                    </li>
+                </ul>
+            </div>
+            <button class="reset" v-on:click="reset">Reset</button>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
+        <script src="utilities.js"></script>
+        <script src="lexer.js"></script>
+        <script src="script.js"></script>
+    </body>
+</html>
