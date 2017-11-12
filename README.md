@@ -1,4 +1,4 @@
-# Task 1 -- QtWrapper 
+# Task 1 — QtWrapper 
 *(completed for 5 points)*
 
 C++ library providing "PushButton", "Window" and "Label" objects base on Qt framework. 
