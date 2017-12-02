@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tic-Tac-Toe</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            body {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .game {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .board {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 500px;
+                height: 500px;
+                border: 1px solid black;
+            }
+
+            .moves {
+                /* Compensate the scrollbar. */
+                padding-left: 17px;
+                width: 250px;
+                max-height: 500px;
+                text-align: center;
+                overflow-y: scroll;
+            }
+
+            .stats {
+                width: 350px;
+                text-align: center;
+            }
+
+            .stats__actor {
+                font-weight: bold;
+            }
+
+            .stats__win {
+                color: #388E3C;
+            }
+
+            .stats__lose {
+                color: #FF5252;
+            }
+
+            .stats__win,
+            .stats__lose {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="application">
+            <router-view></router-view>
+        </div>
+        <template id="deckhouse">
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" v-on:click="play">
+                PLAY
+            </button>
+        </template>
+        <template id="game">
+            <div class="game">
+                <div class="board">
+                    <canvas v-if="showBoard" v-on:mousedown="canvasSqueeze" v-on:mouseup="canvasRelease" v-on:mouseleave="canvasRelease"
+                        v-on:mousemove="canvasMotion" ref="canvas" width="500" height="500"></canvas>
+                    <button v-if="!showBoard && isAdmin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" v-on:click="start">
+                        START
+                    </button>
+                    <button v-if="!showBoard && !isAdmin" class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" disabled>
+                        WAITING...
+                    </button>
+                </div>
+                <div class="moves" ref="moves">
+                    <div v-for="(move, index) in moves">
+                        <button class="mdl-button mdl-js-button mdl-button--primary" v-on:click="focus(index)">
+                            ({{ move.x }}; {{ move.y }})
+                        </button>
+                    </div>
+                </div>
+                <div class="stats">
+                    <h1 class="stats__time">{{ time }}</h1>
+                    <ol>
+                        <li v-for="player in players">
+                            <span v-bind:class="{ stats__actor: actor === player.identifier }">{{ player.identifier }}&nbsp;</span>
+                            {{ player.symbol }}<span v-if="userId === player.identifier">&nbsp;(you)</span>
+                        </li>
+                    </ol>
+                    <h1 v-if="winner !== null && winner === userId" class="stats__win">
+                        WIN
+                    </h1>
+                    <h1 v-if="winner !== null && winner !== userId" class="stats__lose">
+                        LOSE
+                    </h1>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect" v-on:click="home">
+                        HOME
+                    </button>
+                </div>
+            </div>
+        </template>
+        <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+        <script src="https://unpkg.com/vue@2.5.9/dist/vue.min.js"></script>
+        <script src="https://unpkg.com/vue-router@3.0.1/dist/vue-router.min.js"></script>
+        <script src="/script.js"></script>
+    </body>
+</html>
