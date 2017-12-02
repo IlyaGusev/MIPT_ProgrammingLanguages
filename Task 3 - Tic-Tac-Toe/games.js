@@ -81,11 +81,7 @@ class Game extends EventEmitter {
             const index = this.getCurrentActorIndex_(communicator.getIdentifier())
             const nextActorIdentifier = this.getNextActorIdentifier_(index)
             if (this.admin === communicator.getIdentifier()) {
-                if (this.players.length > 1) {
-                    this.admin = nextActorIdentifier
-                } else {
-                    this.admin = null
-                }
+                this.admin = nextActorIdentifier
             }
             this.players.splice(index, 1)
             this.symbols.delete(communicator.getIdentifier())
@@ -208,9 +204,7 @@ class Game extends EventEmitter {
                 this.winner = identifier
                 this.players.forEach((player) => {
                     player.updateGameState()
-                    if (success) {
-                        player.notifyFinal()
-                    }
+                    player.notifyFinal()
                 })
             } else {
                 this.current = this.getNextActorIdentifier_(

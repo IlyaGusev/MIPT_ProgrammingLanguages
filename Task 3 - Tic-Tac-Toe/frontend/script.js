@@ -168,8 +168,6 @@ const Game = {
         this.interval = null
         this.lastX = NaN
         this.lastY = NaN
-        this.initialX = NaN
-        this.initialY = NaN
         // INVALID = -1, SQUEEZED = 0, DRAGGED = 1
         this.drag = -1
         canvasController = new CanvasController()
